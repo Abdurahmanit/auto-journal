@@ -3,6 +3,11 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
+// Страница авторизации
+router.get('/', (req, res) => {
+    res.render('auth');
+});
+
 // Регистрация
 router.post('/register', async (req, res) => {
     try {
@@ -14,13 +19,12 @@ router.post('/register', async (req, res) => {
             return res.status(400).send('Пользователь уже существует');
         }
 
-        // Хеширование пароля перед сохранением
-        const hashedPassword = bcrypt.hashSync(password, 8);
-        const user = new User({ username, password: hashedPassword });
+        // Создание нового пользователя (пароль хешируется автоматически в User.js)
+        const user = new User({ username, password });
 
         await user.save();
-        req.session.userId = user._id; // Автоматический вход после регистрации
-        res.redirect('/profile'); // Перенаправление в профиль
+        req.session.userId = user._id; // Сохраняем сессию
+        res.redirect('/profile'); // Перенаправляем в профиль
     } catch (error) {
         console.error(error);
         res.status(500).send('Ошибка регистрации');
