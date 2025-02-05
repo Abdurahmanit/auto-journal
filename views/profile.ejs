@@ -2,18 +2,33 @@
 <html>
 
 <head>
-    <title>Profile</title>
+    <title>Профиль</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
 
 <body>
-    <h1>Welcome <%= user.username %>
-    </h1>
-    <img src="<%= user.avatar %>" alt="Avatar">
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="avatar">
-        <button type="submit">Upload</button>
-    </form>
+    <div class="container">
+        <h1>Привет, <%= user.username %>!</h1>
+
+        <% if (user.avatar) { %>
+            <img src="<%= user.avatar %>" alt="Avatar" class="avatar">
+            <% } else { %>
+                <p>Аватар не загружен</p>
+                <% } %>
+
+                    <form action="/profile/upload" method="post" enctype="multipart/form-data">
+                        <input type="file" name="avatar" required>
+                        <button type="submit">Загрузить аватар</button>
+                    </form>
+
+                    <a href="/articles">
+                        <button>Назад в Main</button>
+                    </a>
+
+                    <a href="/auth/logout">
+                        <button class="logout">Выйти</button>
+                    </a>
+    </div>
 </body>
 
 </html>
