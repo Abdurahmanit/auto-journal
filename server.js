@@ -1,5 +1,6 @@
-const express = require('express');
+require('dotenv').config(); // Загружает переменные окружения из .env
 const mongoose = require('mongoose');
+const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const authRoutes = require('./routes/auth');
