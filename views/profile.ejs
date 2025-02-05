@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Profile</title>
+</head>
+
+<body>
+    <h1>Welcome <%= user.username %>
+    </h1>
+    <img src="<%= user.avatar %>" alt="Avatar">
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="avatar">
+        <button type="submit">Upload</button>
+    </form>
+</body>
+
+</html>
