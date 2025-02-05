@@ -10,17 +10,18 @@ const config = require('./config/database');
 
 const app = express();
 
+// Настройка EJS
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 // Подключение к MongoDB
-mongoose.connect(config.database, { useNewUrlParser: true, useUnifiedTopology: true });
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () {
-    console.log('Connected to MongoDB');
-});
+mongoose.connect(config.database)
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.error('MongoDB connection error:', err));
 
 // Настройка сессий
 app.use(session({
-    secret: 'secret',
+    secret: process.env.SESSION_SECRET || 'your_secret_key',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }
@@ -32,9 +33,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Маршруты
-app.use('/', authRoutes);
+app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
 app.use('/articles', articleRoutes);
+
+// Главная страница (выводит страницу авторизации)
+app.get('/', (req, res) => {
+    res.render('auth');
+});
 
 // Запуск сервера
 const PORT = process.env.PORT || 3000;
