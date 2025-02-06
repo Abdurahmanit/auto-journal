@@ -7,18 +7,22 @@
 </head>
 
 <body>
-    <h1>Articles</h1>
-    <% articles.forEach(article=> { %>
-        <div>
-            <h2>
-                <%= article.title %>
-            </h2>
-            <p>
-                <%= article.content %>
-            </p>
-            <img src="<%= article.image %>" alt="Article Image">
-        </div>
-        <% }) %>
+    <div class="container">
+        <h1>Articles</h1>
+        <% articles.forEach(article=> { %>
+            <div class="article">
+                <h2>
+                    <%= article.title %>
+                </h2>
+                <p>
+                    <%= article.content %>
+                </p>
+                <% if (article.image) { %>
+                    <img src="<%= article.image %>" alt="Article Image">
+                    <% } %>
+            </div>
+            <% }) %>
+    </div>
 </body>
 
 </html>
